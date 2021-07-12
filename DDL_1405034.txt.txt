@@ -1,0 +1,95 @@
+create table build0(
+  id number(10) not null,
+  name varchar2(100) not null,
+  type char(1),
+  location varchar2(100),
+  constraint pk_buid0 primary key(id,name)
+);
+
+
+create table flat0(
+  num number(10) not null,
+  floor number(10),
+  side varchar2(100),
+  area varchar2(100),
+  buil0_id number(10),
+  buil0_name varchar2(100),
+  constraint pk_fal0 primary key(num),
+  constraint fk_building0 foreign key(buil0_id,buil0_name) references build0(id,name)
+);
+
+create table resident(
+  res_id number(10) not null,
+  res_name varchar2(100),
+  des varchar2(100),
+  allot date,
+  rel date,
+  constraint pk_rid primary key(res_id)
+);
+
+create table complain(
+  type varchar2(100) not null,
+  res_info varchar2(100),
+  da date,
+  fla varchar2(100),
+  constraint pk_com primary key(type)
+);
+
+create table employee(
+  emp_id number(10) not null,
+  over_hour number(10),
+  e_name varchar2(100),
+  e_address varchar2(100),
+  e_appointment date,
+  e_salary number(10),
+  e_mobile number(11),
+  ecom_type varchar2(100),
+  constraint pk_em primary key(emp_id),
+  constraint fk_c foreign key(ecom_type) references complain(type)
+);
+  
+create table engineer(
+  eng_id number(10) not null,
+  en_expertise varchar2(100),
+  en_name varchar2(100),
+  en_address varchar2(100),
+  en_appointment date,
+  en_salary number(10),
+  en_mobile number(11),
+  en_emid number(10),
+  constraint pk_eng primary key(eng_id),
+  constraint fk_empl foreign key(en_emid) references employee(emp_id)
+);
+
+create table technician(
+  tec_id number(10) not null,
+  t_training varchar2(100),
+  t_name varchar2(100),
+  t_address varchar2(100),
+  t_appointment date,
+  t_salary number(10),
+  t_mobile number(11),
+  t_engid number(10),
+  constraint pk_tc primary key(tec_id),
+  constraint fk_engi foreign key(t_engid) references engineer(eng_id)
+);
+
+create table allottment(
+  fl_num number(10) not null,
+  re_id number(10) not null,
+  time number(10),
+  constraint pk_al primary key(fl_num,re_id)
+);
+
+create table send_complain(
+  resi_id number(10) not null,
+  com_type varchar2(100) not null,
+  constraint pk_sc primary key(resi_id,com_type)
+);
+
+create table service(
+  en_id number(10) not null,
+  tec_id number(10) not null,
+  com_type varchar2(100) not null,
+  constraint pk_ser primary key(en_id,tec_id,com_type)
+);
